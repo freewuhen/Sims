@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>good students</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body BACKGROUND="bg.jpg">
+<ul class="nav nav-pills">
+    <li><a href="index.html">Home</a></li>
+    <li class="active"><a href="showall.html">所有学生</a></li>
+    <li><a href="addStudent.html">添加学生</a></li>
+    <li><a href="findoneStudent.html">管理学生</a></li>
+</ul>
+<div class="center-block">
+
+    <table class="table table-bordered">
+        <tr>
+            <th>sno</th>
+            <th>sname</th>
+            <th>sage</th>
+            <th>sex</th>
+
+        </tr>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.sno}"></td>
+            <td th:text="${student.sname}"></td>
+            <td th:text="${student.sage}"></td>
+            <td th:text="${student.ssex}"></td>
+
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

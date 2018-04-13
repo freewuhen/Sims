@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>查找结果</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body BACKGROUND="bg.jpg">
+<ul class="nav nav-pills">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="showall.html">所有学生</a></li>
+    <li><a href="addStudent.html">添加学生</a></li>
+    <li class="active"><a href="findoneStudent.html">管理学生</a></li>
+    <li><a href="updatestudent.html">更新信息</a></li>
+    <li><a href="deletestudent.html">删除信息</a></li>
+</ul>
+<table class="table table-bordered">
+
+    <br>
+    <tr>
+        <th>sno</th>
+        <th>sname</th>
+        <th>sage</th>
+        <th>ssex</th>
+
+    </tr>
+    <tr th:object="${student}">
+        <td th:text="*{sno}"></td>
+        <td th:text="*{sname}"></td>
+        <td th:text="*{sage}"></td>
+        <td th:text="*{ssex}"></td>
+
+    </tr>
+</table>
+
+</body>
+</html>
