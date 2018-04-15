@@ -1,15 +1,17 @@
 package com.freeyun.demo.Domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Student
 {
-    @Id private String sno;//以学号为主键
+    @Id  private String sno;//以学号为主键
     private String sname;
     private Integer sage;
     private String ssex;
+
+    @ManyToOne private StudentClass studentclass;
+
     public Student(){
 
     }
@@ -21,6 +23,14 @@ public class Student
     public void setSno(String sno) {
         this.sno = sno;
 
+    }
+
+    public StudentClass getStudentclass() {
+        return studentclass;
+    }
+
+    public void setStudentclass(StudentClass studentclass) {
+        this.studentclass = studentclass;
     }
 
     public String getSname() {

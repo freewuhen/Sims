@@ -1,6 +1,8 @@
 package com.freeyun.demo.Controller;
 
 import com.freeyun.demo.Domain.Student;
+import com.freeyun.demo.Domain.StudentClass;
+import com.freeyun.demo.Respository.StudentClassRespository;
 import com.freeyun.demo.Respository.StudentRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ManageStudentController {//添加一个学生
+public class ManageStudentController {//管理学生信息
     @Autowired
     private StudentRespository studentRepository;
+    @Autowired
+    private StudentClassRespository classrespository;
     private String id;
     private Student t_student;// 用来传递查找与更新
     //Find student
@@ -41,8 +45,11 @@ public class ManageStudentController {//添加一个学生
         {
             System.out.print("Verification pass");
             Student student = studentRepository.findById(id).get();
+            StudentClass sclass = student.getStudentclass();
+            String classname = sclass.getClassname();
             t_student = student;
             model.addAttribute("student",student);
+            model.addAttribute("classname : ",classname);
             if (isfind)
             {
                 isfind = false;

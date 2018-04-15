@@ -23,6 +23,7 @@
         <th>sname</th>
         <th>sage</th>
         <th>ssex</th>
+        <th>classnmae</th>
 
     </tr>
     <tr th:object="${student}">
@@ -30,7 +31,7 @@
         <td th:text="*{sname}"></td>
         <td th:text="*{sage}"></td>
         <td th:text="*{ssex}"></td>
-
+        <td th:text="${classname}"></td>
     </tr>
 </table>
 
