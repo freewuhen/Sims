@@ -94,7 +94,12 @@ public class ManageStudentController {//管理学生信息
     @PostMapping("/updatestudent.html")
     public String Update(Student_info student_info){
 
-        Student student = student_info;
+        Student student = new Student();
+        student.setSno(student_info.getSno());
+        student.setSname(student_info.getSname());
+        student.setSage(student_info.getSage());
+        student.setSsex(student_info.getSsex());
+
         StudentClass cls = classRespository.findDistinctByClassname(student_info.getClassname());
         if (cls == null) // classnmae is not exist
         {
