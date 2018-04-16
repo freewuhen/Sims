@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-offset-3 col-md-6">
                 <form class="form-horizontal" method="post" th:object="${student}">
-                    <span class="heading">更新信息</span>
+                    <span class="heading" >更新信息</span>
                     <div class="form-group">
                         <input type="text" class="form-control" name="sno" th:field="*{sno}">
                     </div>
@@ -30,6 +30,9 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="ssex" th:field="*{ssex}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="class" th:field="*{classname}">
                     </div>
 
                     <div class="form-group">
