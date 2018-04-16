@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.NoSuchElementException;
+
 @Controller
 public class ManageStudentController {//管理学生信息
     @Autowired
@@ -39,27 +41,37 @@ public class ManageStudentController {//管理学生信息
         isfind = true;
         return("redirect:/findoneresult");
     }
-    @GetMapping("/findoneresult")
+    @GetMapping(value = {"/findoneresult","/findoneresult.html"})
     public String FindoneResult(Model model){
         SignVerification v = new SignVerification();
+        StudentClass sclass;
+        String classname;
         if(v.Verification())
         {
             System.out.print("Verification pass");
-            Student student = studentRepository.findById(id).get();
-            StudentClass sclass = student.getStudentclass();
-            String classname = sclass.getClassname();
-            t_student = student;
-            model.addAttribute("student",student);
-            model.addAttribute("classname",classname);
-            if (isfind)
-            {
-                isfind = false;
-                return "/findoneresult";
+            try {
+                Student student = studentRepository.findById(id).get();
+                sclass = student.getStudentclass();
+                classname = sclass.getClassname();
+                t_student = student;
+                model.addAttribute("student",student);
+                model.addAttribute("classname",classname);
+                if (isfind)
+                {
+                    isfind = false;
+                    return "/findoneresult";
 
+                }
+                else {
+                    return "redirect:/findoneStudent";
+                }
+            }catch (NoSuchElementException e)
+            {
+                return "/find_error";
             }
-            else {
-                return "redirect:/findoneStudent";
-            }
+
+
+
 
         }
         return "redirect:/signin";
