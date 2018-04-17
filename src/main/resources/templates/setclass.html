@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>setclass</title>
+    <title>班级管理</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
 </head>
-<body>
+<body BACKGROUND="bg.jpg">
+    <ul class="nav nav-pills">
+        <li ><a href="index.html">Home</a></li>
+        <li class="active"><a href="setclass.html">管理班级</a></li>
+        <li ><a href="addclass.html">添加班级</a></li>
+    </ul>
+    <table class="table table-bordered">
+        <tr>
+            <th>班级</th>
+        </tr>
+        <tr th:each="class : ${classes}">
+            <td th:text="${class.classname}"></td>
+        </tr>
+    </table>
 
 </body>
 </html>
