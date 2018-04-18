@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Student
 {
-    @Id  private String sno;//以学号为主键
+    @Id  @Column(length = 15) private String sno;//以学号为主键
     private String sname;
     private Integer sage;
     private String ssex;

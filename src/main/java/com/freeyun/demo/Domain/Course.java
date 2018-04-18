@@ -1,13 +1,13 @@
 package com.freeyun.demo.Domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class Course {
-    @Id private String cno;
+    @Id @Column(length = 15) private String cno;
     private String cname;
-    private String teacher;
 
     public Course(){
 
@@ -26,12 +26,5 @@ public class Course {
 
     public void setCname(String cname) {
         this.cname = cname;
-    }
-    public String getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
     }
 }
