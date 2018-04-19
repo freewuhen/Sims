@@ -1,7 +1,9 @@
 package com.freeyun.demo.Controller;
 
+
+import com.freeyun.demo.Domain.Course;
 import com.freeyun.demo.Domain.StudentClass;
-import com.freeyun.demo.Respository.StudentClassRespository;
+import com.freeyun.demo.Respository.CourseRespository;
 import com.freeyun.demo.Verification.SignVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,46 +14,46 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-public class ClassController {
-    @Autowired
-    private StudentClassRespository studentClassRespository;
+public class CourseController {
+    @Autowired private CourseRespository courseRespository;
 
-    @GetMapping(value = {"/setclass","/setclass.html"})
-    String setClass(Model model)
+    @GetMapping(value = {"/setCourse","/setCourse.html"})
+    String setCourse(Model model)//获取课程管理页面
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-            List<StudentClass> classes = studentClassRespository.findAll();
-            model.addAttribute("classes",classes);
-            return "/setclass";
+            List<Course> courses = courseRespository.findAll();
+            model.addAttribute("courses",courses);
+            return "/setCourse";
         }
         return "redirect:/signin";
     }
-    @GetMapping(value = {"/addclass","/addclass.html"})
-    String addClass()
+    @GetMapping(value = {"/addCourse","/addCourse.html"})
+    String addCourse()
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-        return "/addclass";
+            return "/addCourse";
         }
         return "redirect:/signin";
     }
 
-    @PostMapping(value = {"/addclass","/addclass.html"})
-    String addClass(StudentClass studentClass)
+    @PostMapping(value = {"/addCourse","/addCourse.html"})
+    String addClass(Course course)
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-            if (studentClassRespository.findDistinctByClassname(studentClass.getClassname()) != null) {
+            if (courseRespository.findDistinctByCname(course.getCname()) != null) {
                 return "/error";
             }
 
-            studentClassRespository.save(studentClass);
+            courseRespository.save(course);
 
             return "/ok";
         }
         return "redirect:/signin";
 
     }
+
 
 }

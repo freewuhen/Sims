@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body BACKGROUND="bg.jpg">
+<ul class="nav nav-pills">
+    <li ><a href="index.html">Home</a></li>
+    <li class="active"><a href="setclass.html">管理课程</a></li>
+    <li ><a href="addCourse.html">添加课程</a></li>
+</ul>
+<table class="table table-bordered">
+    <tr>
+        <th>课程名</th>
+        <th>任课老师</th>
+
+    </tr>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.cname}"></td>
+        <td th:text="${course.teacher}"></td>
+
+    </tr>
+</table>
+
+</body>

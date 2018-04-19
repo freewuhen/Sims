@@ -2,6 +2,7 @@ package com.freeyun.demo.Controller;
 
 import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Respository.StudentRespository;
+import com.freeyun.demo.Verification.SignVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
