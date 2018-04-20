@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>查询学生成绩结果</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body BACKGROUND="bg.jpg">
+<ul class="nav nav-pills">
+    <li ><a href="index.html">Home</a></li>
+    <li ><a href="ScoreController.html">成绩管理</a></li>
+    <li  ><a href="findScore.html">查询成绩</a></li>
+    <li class="active" ><a href="#">查询学生成绩</a></li>
+    <li ><a href="findCourseScore.html">查询课程成绩</a></li>
+
+</ul>
+<table class="table table-bordered">
+    <tr>
+        <th>课程名</th>
+        <th>成绩</th>
+    </tr>
+    <tr th:each="score  : ${scores}">
+        <td th:text="${score.course.cno}"></td>
+        <td th:text="${score.score}"></td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

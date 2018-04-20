@@ -36,7 +36,7 @@ public class ManageStudentController {//管理学生信息
         return "redirect:/signin";
    }
     @PostMapping(value = {"/findoneStudent.html","/findoneStudent"})
-    public String PostFindoneStudent(@RequestParam String sno,Model model){
+    public String PostFindoneStudent(@RequestParam String sno){
         id = sno;
         isfind = true;
         return("redirect:/findoneresult");
