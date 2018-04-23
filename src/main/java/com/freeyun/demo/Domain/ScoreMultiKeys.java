@@ -5,22 +5,22 @@ import java.util.Objects;
 
 public class ScoreMultiKeys implements Serializable{
 
-    private Student student;
-    private Course course;
+    protected String sno;
+    protected String cno;
 
-    public Student getStudent() {
-        return student;
+    public String getSno() {
+        return sno;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setSno(String sno) {
+        this.sno = sno;
     }
 
-    public Course getCourse() {
-        return course;
+    public String getCno() {
+        return cno;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCno(String cno) {
+        this.cno = cno;
     }
 }

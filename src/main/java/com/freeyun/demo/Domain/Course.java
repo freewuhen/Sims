@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Course {
-    @Id @Column(length = 15) private String cno;
+    @Id @Column(length = 15) protected String cno;
     private String cname;
     private String teacher;
     public Course(){

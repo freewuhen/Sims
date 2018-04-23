@@ -11,11 +11,11 @@
     <li ><a href="index.html">Home</a></li>
     <li ><a href="ScoreController.html">成绩管理</a></li>
     <li  ><a href="findScore.html">查询成绩</a></li>
-    <li class="active" ><a href="#">查询学生成绩</a></li>
-    <li ><a href="findCourseScore.html">查询课程成绩</a></li>
+    <li  ><a href="findStudentScore.html">查询学生成绩</a></li>
+    <li class="active"><a href="#">查询课程成绩</a></li>
 
 </ul>
-<h1 th:text = ${sname}></h1>
+<h1 th:text = ${cname}></h1>
 <h1>成绩如下</h1>
 
 <table class="table table-bordered">
@@ -24,11 +24,10 @@
         <th>成绩</th>
     </tr>
     <tr th:each="score  : ${scores}">
-        <td th:text="${score.course.cno}"></td>
+        <td th:text="${score.course.sno}"></td>
         <td th:text="${score.score}"></td>
     </tr>
 </table>
 
-</div>
 </body>
 </html>

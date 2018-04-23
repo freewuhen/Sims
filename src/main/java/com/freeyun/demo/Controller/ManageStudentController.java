@@ -105,14 +105,18 @@ public class ManageStudentController {//管理学生信息
     }
     @PostMapping("/updatestudent.html")
     public String Update(Student_info student_info){
-
+        StudentClass cls = new StudentClass();
         Student student = new Student();
         student.setSno(student_info.getSno());
         student.setSname(student_info.getSname());
         student.setSage(student_info.getSage());
         student.setSsex(student_info.getSsex());
-
-        StudentClass cls = classRespository.findDistinctByClassname(student_info.getClassname());
+        try{
+            cls = classRespository.findDistinctByClassname(student_info.getClassname());
+        }catch (NoSuchElementException e)// 添加的班级不存在
+        {
+            return "/error";
+        }
         if (cls == null) // classnmae is not exist
         {
             return "/error";
