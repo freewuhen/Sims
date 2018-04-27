@@ -20,11 +20,11 @@
 
 <table class="table table-bordered">
     <tr>
-        <th>课程名</th>
+        <th>学生名</th>
         <th>成绩</th>
     </tr>
     <tr th:each="score  : ${scores}">
-        <td th:text="${score.course.sno}"></td>
+        <td th:text="${score.name}"></td>
         <td th:text="${score.score}"></td>
     </tr>
 </table>

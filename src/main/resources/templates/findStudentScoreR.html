@@ -24,7 +24,7 @@
         <th>成绩</th>
     </tr>
     <tr th:each="score  : ${scores}">
-        <td th:text="${score.course.cno}"></td>
+        <td th:text="${score.name}"></td>
         <td th:text="${score.score}"></td>
     </tr>
 </table>

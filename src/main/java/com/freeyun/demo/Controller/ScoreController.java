@@ -1,6 +1,7 @@
 package com.freeyun.demo.Controller;
 
 import com.freeyun.demo.Domain.Course;
+import com.freeyun.demo.Domain.Score_info;
 import com.freeyun.demo.Domain.Scores;
 import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Respository.CourseRespository;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,6 +34,8 @@ public class ScoreController {
     String getFindScorePage(){
         return "/findScore";
     }
+
+    // 查询指定学生所对应的所有课程成绩
     @GetMapping(value = {"/findStudentScore.html","/findStudentScore"})
     String getFindStudentScorePage(){
         return "/findStudentScore";
@@ -45,9 +49,14 @@ public class ScoreController {
     String getFindStudentScoreResultPage(Model model){
         try{
             Student student = studentRespository.findById(sid).get();
-            System.out.print("student.getSname():"+student.getSname()+"\n");
-            List<Scores> scores = scoreRespository.findDistinctBySnoIgnoreCase(sid);
-            model.addAttribute("scores",scores);
+            List<Object[]> scores = scoreRespository.findDistinctBySnoIgnoreCase(sid);
+            List<Score_info> score_infos = new ArrayList<Score_info>();
+            //类型转换 将数据库中查询到的结果（objetc[]类型） 转换为 Score_info 型
+            for(int i = 0;i< scores.size();i++)
+            {
+                score_infos.add(new Score_info((String) scores.get(i)[0],(Integer) scores.get(i)[1]));
+            }
+            model.addAttribute("scores", score_infos);
             model.addAttribute("sname",student.getSname());
         }
         catch (NoSuchElementException e)
@@ -59,6 +68,7 @@ public class ScoreController {
         return "/findStudentScoreR";
     }
 
+    // 查询指定课程所对应的学生成绩
     @GetMapping(value = {"/findCourseScore.html","/findCourseScore"})
     String getFindCourseScorePage(){
         return "/findCourseScore";
@@ -72,10 +82,16 @@ public class ScoreController {
     String getFindCourseScoreResultPage(Model model){
         try{
             Course course = courseRespository.findById(cid).get();
-            System.out.print("student.getSname():"+course.getCname()+"\n");
-            List<Scores> scores = scoreRespository.findDistinctByCnoIgnoreCase(cid);
-            model.addAttribute("scores",scores);
-            model.addAttribute("sname",course.getCname());
+
+            List<Object[]> scores = scoreRespository.findDistinctByCnoIgnoreCase(cid);
+            List<Score_info> score_infos = new ArrayList<Score_info>();
+            //类型转换 将数据库中查询到的结果（objetc[]类型） 转换为 Score_info 型
+            for(int i = 0;i< scores.size();i++)
+            {
+                score_infos.add(new Score_info((String) scores.get(i)[0],(Integer) scores.get(i)[1]));
+            }
+            model.addAttribute("scores",score_infos);
+            model.addAttribute("cname",course.getCname());
         }
         catch (NoSuchElementException e)
         {
@@ -83,8 +99,11 @@ public class ScoreController {
         }
 
 
-        return "/findStudentScoreR";
+        return "/findCourseScoreR";
     }
+
+
+    // 添加成绩
     @GetMapping(value = {"/addScore","/addScore.html"})
     String getAddCoursePage(){
         return "/addScore";
