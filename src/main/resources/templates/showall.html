@@ -63,7 +63,7 @@
 
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-6">
-                                    <form class="form-horizontal" >
+                                    <form class="form-horizontal" id="myForm">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="sno" id = "sno">
                                         </div>
@@ -96,47 +96,35 @@
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function(){//当所有html加载完成后执行
             $("button").on('click',
                 function() {
-                    var tr = $(this).parent().parent();
-                    var td = tr.find("td");
-                    $("#myModal").modal('show');
-                    var snov = td[0].innerHTML;
+                    var tr = $(this).parent().parent();//获取被点击按钮所在的行
+                    var td = tr.find("td");//获取当前行的所有列
+                    $("#myModal").modal('show');//显示模态框
+                    var snov = td[0].innerHTML;//获取当前列的文本内容
                     var snamev = td[1].innerHTML;
                     var sagev = td[2].innerHTML;
                     var ssexv = td[3].innerHTML;
-
+                    //将当前行的信息写入模态框中表单对应的地方
                     $("#sno").val(snov);
                     $("#sname").val(snamev);
                     $("#sage").val(sagev);
                     $("#ssex").val(ssexv);
-
-
-
                 }
             );
-            $("#post_button").on('click',
-                function () {
-                    $.post("showall.html",
-                        {
-                            sno:$("#sno").val(),
-                            sname:$("#sname").val(),
-                            sage:$("#sage").val(),
-                            ssex:$("#ssex").val()
-
-                        },function () {
-                            
-                        })
-                }
-            );
-            // $("table tr").click(
-            //     function () {
-            //         var tr =$(this);
-            //         var td = tr.find("td");
-            //         alert(td[0].innerHTML+td[1].innerHTML);
-            //     }
-            // );
+            $("#myForm").on('submit',function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'showall.html',
+                    type: 'POST',
+                    data: $('#myForm').serialize(),
+                    success: function(){
+                        window.location.href = "showall.html";
+                        // 当Ajax请求后，返回的只能是字符流,不是页面，所以需要调用函数强制跳转
+                    }
+                });
+            })
         });
     </script>
 

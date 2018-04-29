@@ -8,8 +8,7 @@ import com.freeyun.demo.Verification.SignVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,17 +23,20 @@ public class ShowallController {
         if(v.Verification()) {
             List<Student> Students = studentRepository.findAll();
             model.addAttribute("students",Students);
+            System.out.print("11111111111111111");
             return  "/showall";
         }
         return "redirect:/signin";
 
     }
+
     @PostMapping("/showall.html")
-    public String Update(Student student){
+    public String Update( Student student){
 
         studentRepository.save(student);
 
-        return "redirect:/showall";
+        return "/showall";
     }
+
 
 }
