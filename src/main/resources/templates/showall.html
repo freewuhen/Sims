@@ -14,42 +14,73 @@
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body BACKGROUND="bg.jpg">
-    <ul class="nav nav-pills">
-    <li><a href="index.html">Home</a></li>
-    <li class="active"><a href="showall.html">所有学生</a></li>
-    <li><a href="addStudent.html">添加学生</a></li>
-    <li><a href="findoneStudent.html">管理学生</a></li>
-    </ul>
-    <div class="center-block">
+<body >
+    <div class="container">
+            <ul class="nav nav-pills">
+                <li><a href="index.html">Home</a></li>
+                <li class="active"><a href="showall.html">所有学生</a></li>
+                <li><a href="addStudent.html">添加学生</a></li>
+                <li><a href="findoneStudent.html">管理学生</a></li>
+            </ul>
+    </div>
 
-        <table class="table table-hover" >
-        <thead>
-            <tr class="text-danger">
-                <th>学号</th>
-                <th>姓名</th>
-                <th>年龄</th>
-                <th>姓名</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="student : ${students}" class="text-danger">
-                <td th:text="${student.sno}"></td>
-                <td th:text="${student.sname}"></td>
-                <td th:text="${student.sage}"></td>
-                <td th:text="${student.ssex}"></td>
-                <td>
-                    <button type="button" class="btn btn-primary btn-lg"  >
-                        修改
-                    </button>
-                </td>
-            </tr>
-        </tbody>
+    <!--筛选器-->
+    <div class="container">
+        <form id="qFrom">
 
-    </table>
+                <select class="selectpicker" id="slect">
+                    <option value="0">按学号查询</option>
+                    <option value="1">按姓名查询</option>
+                </select>
+
+                <input type="text" id="query">
+
+                <button type="button" class="btn" id="qsubmit">
+                    查询
+                </button>
+
+
+
+        </form>
+
 
     </div>
+
+    </div>
+    <!--信息表-->
+    <div class="container" >
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover"  id = "student_info_table">
+                    <thead>
+                        <tr class="text-danger">
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>年龄</th>
+                        <th>姓名</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id = "student_info_tbody">
+                        <tr th:each="student : ${students}" class="text-danger">
+                            <td th:text="${student.sno}"></td>
+                            <td th:text="${student.sname}"></td>
+                            <td th:text="${student.sage}"></td>
+                            <td th:text="${student.ssex}"></td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-lg"  >
+                                修改
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--模态框-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -86,10 +117,6 @@
                             </div>
 
                     </div>
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                        <!--<button type="submit" class="btn btn-primary">提交</button>-->
-                    <!--</div>-->
 
 
             </div>
@@ -97,8 +124,106 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){//当所有html加载完成后执行
-            $("button").on('click',
+
+            $("#myForm").on('submit',function (e) {
+                e.preventDefault();//屏蔽原有功能
+                $.ajax(
+                    {
+                        url: 'showall.html',
+                        type: 'POST',
+                        data: $('#myForm').serialize(),
+                        success: function()
+                        {
+                            window.location.href = "showall.html";
+                            // 当Ajax请求后，返回的只能是字符流,不是页面，所以需要调用函数强制跳转
+                        }
+                    }
+                );
+            });
+
+            $("#qsubmit").on('click',function () {
+                if($("#slect").val() == 0){// 按学号查找
+                    $.ajax(
+                        {
+                            url:'getStudentBysno',
+                            data:
+                                {
+                                    sno:$("#query").val()
+                                },
+                            type:'GET',
+                            dataType:"json",
+                            success:
+                                function (json)
+                                {
+                                   //alert(json.sno);
+                                   $("#student_info_tbody").remove();
+                                   var tbody = document.createElement("tbody");
+                                   tbody.id = "student_info_tbody";
+                                   var tr = tbody.insertRow(0);
+                                   tr.className = "table table-hover"
+
+                                   var td = tr.insertCell(0);
+                                   td.innerHTML = json.sno;
+
+                                   td = tr.insertCell(1);
+                                   td.innerHTML = json.sname;
+
+                                   td = tr.insertCell(2);
+                                   td.innerHTML = json.sage;
+
+                                    td = tr.insertCell(3);
+                                    td.innerHTML = json.ssex;
+
+                                    td = tr.insertCell(4);
+                                    td.id = "last_td";
+
+
+                                    var bt = document.createElement("button");
+                                    bt.innerHTML = "修改";
+                                    bt.className = "btn btn-primary btn-lg";
+                                    bt.type = "button";
+                                    bt.id = "new_q"
+
+
+
+                                   $("thead").after(tbody);
+                                   $("#last_td").append(bt);
+                                    $("#new_q").on('click',
+                                        function() {
+
+                                            var tr = $(this).parent().parent();//获取被点击按钮所在的行
+                                            var td = tr.find("td");//获取当前行的所有列
+                                            $("#myModal").modal('show');//显示模态框
+                                            var snov = td[0].innerHTML;//获取当前列的文本内容
+                                            var snamev = td[1].innerHTML;
+                                            var sagev = td[2].innerHTML;
+                                            var ssexv = td[3].innerHTML;
+
+                                            //将当前行的信息写入模态框中表单对应的地方
+                                            $("#sno").val(snov);
+                                            $("#sname").val(snamev);
+                                            $("#sage").val(sagev);
+                                            $("#ssex").val(ssexv);
+                                        }
+                                    );
+
+                                },
+                            error:
+                                function () {
+                                    alert("error");
+                                }
+                        }
+                    )
+                }
+                else {//按姓名查找
+                    alert("sname");
+                }
+
+            });
+
+            $("button.btn-primary").on('click',
                 function() {
+
                     var tr = $(this).parent().parent();//获取被点击按钮所在的行
                     var td = tr.find("td");//获取当前行的所有列
                     $("#myModal").modal('show');//显示模态框
@@ -106,6 +231,7 @@
                     var snamev = td[1].innerHTML;
                     var sagev = td[2].innerHTML;
                     var ssexv = td[3].innerHTML;
+
                     //将当前行的信息写入模态框中表单对应的地方
                     $("#sno").val(snov);
                     $("#sname").val(snamev);
@@ -113,18 +239,6 @@
                     $("#ssex").val(ssexv);
                 }
             );
-            $("#myForm").on('submit',function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: 'showall.html',
-                    type: 'POST',
-                    data: $('#myForm').serialize(),
-                    success: function(){
-                        window.location.href = "showall.html";
-                        // 当Ajax请求后，返回的只能是字符流,不是页面，所以需要调用函数强制跳转
-                    }
-                });
-            })
         });
     </script>
 

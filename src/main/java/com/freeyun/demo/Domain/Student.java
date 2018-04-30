@@ -1,5 +1,7 @@
 package com.freeyun.demo.Domain;
 
+//import javax.persistence.*;
+
 import javax.persistence.*;
 
 @Entity

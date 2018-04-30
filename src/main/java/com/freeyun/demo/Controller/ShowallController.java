@@ -23,7 +23,6 @@ public class ShowallController {
         if(v.Verification()) {
             List<Student> Students = studentRepository.findAll();
             model.addAttribute("students",Students);
-            System.out.print("11111111111111111");
             return  "/showall";
         }
         return "redirect:/signin";
