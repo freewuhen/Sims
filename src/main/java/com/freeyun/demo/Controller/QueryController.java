@@ -12,12 +12,35 @@ import org.springframework.web.bind.annotation.RestController;
 public class QueryController {
     @Autowired private StudentRespository studentRespository;
     @GetMapping("/getStudentBysno")
-    Student getQueryPage(@RequestParam String sno)
+    Student getQueryPageBysno(@RequestParam String sno)
     {
+        Student student;
+        try{
+            student = studentRespository.findById(sno).get();
+        }
+        catch (Exception e)
+        {
+            student = new Student();
+            student.setSno("error");
+            return student;// 如果所查学生不存在则返回空值
+        }
 
-        Student student = studentRespository.findById(sno).get();
 
-
+        return student;
+    }
+    @GetMapping("/getStudentBysname")
+    Student getQueryPageBysname(@RequestParam String sname)
+    {
+        Student student;
+        try{
+            student = studentRespository.findDistinctBySname(sname);
+        }
+        catch (Exception e)
+        {
+            student = new Student();
+            student.setSno("error");
+            return student;// 如果所查学生不存在则返回空值
+        }
         return student;
     }
 }

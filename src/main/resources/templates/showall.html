@@ -155,57 +155,64 @@
                             success:
                                 function (json)
                                 {
-                                   //alert(json.sno);
-                                   $("#student_info_tbody").remove();
-                                   var tbody = document.createElement("tbody");
-                                   tbody.id = "student_info_tbody";
-                                   var tr = tbody.insertRow(0);
-                                   tr.className = "table table-hover"
+                                    if(json.sno == "error")
+                                    {
+                                        alert("该学号不存在,请重新输入");
+                                        $("#query").val(""); //将输入框置为空
+                                    }
+                                    else{
+                                        $("#student_info_tbody").remove(); //将原来信息表清空
+                                        var tbody = document.createElement("tbody");
+                                        tbody.id = "student_info_tbody";
+                                        var tr = tbody.insertRow(0);
+                                        tr.className = "table table-hover"
 
-                                   var td = tr.insertCell(0);
-                                   td.innerHTML = json.sno;
+                                        var td = tr.insertCell(0);
+                                        td.innerHTML = json.sno;
 
-                                   td = tr.insertCell(1);
-                                   td.innerHTML = json.sname;
+                                        td = tr.insertCell(1);
+                                        td.innerHTML = json.sname;
 
-                                   td = tr.insertCell(2);
-                                   td.innerHTML = json.sage;
+                                        td = tr.insertCell(2);
+                                        td.innerHTML = json.sage;
 
-                                    td = tr.insertCell(3);
-                                    td.innerHTML = json.ssex;
+                                        td = tr.insertCell(3);
+                                        td.innerHTML = json.ssex;
 
-                                    td = tr.insertCell(4);
-                                    td.id = "last_td";
-
-
-                                    var bt = document.createElement("button");
-                                    bt.innerHTML = "修改";
-                                    bt.className = "btn btn-primary btn-lg";
-                                    bt.type = "button";
-                                    bt.id = "new_q"
+                                        td = tr.insertCell(4);
+                                        td.id = "last_td";
 
 
+                                        var bt = document.createElement("button");
+                                        bt.innerHTML = "修改";
+                                        bt.className = "btn btn-primary btn-lg";
+                                        bt.type = "button";
+                                        bt.id = "new_q"
 
-                                   $("thead").after(tbody);
-                                   $("#last_td").append(bt);
-                                    $("#new_q").on('click',
-                                        function() {
 
-                                            var tr = $(this).parent().parent();//获取被点击按钮所在的行
-                                            var td = tr.find("td");//获取当前行的所有列
-                                            $("#myModal").modal('show');//显示模态框
-                                            var snov = td[0].innerHTML;//获取当前列的文本内容
-                                            var snamev = td[1].innerHTML;
-                                            var sagev = td[2].innerHTML;
-                                            var ssexv = td[3].innerHTML;
 
-                                            //将当前行的信息写入模态框中表单对应的地方
-                                            $("#sno").val(snov);
-                                            $("#sname").val(snamev);
-                                            $("#sage").val(sagev);
-                                            $("#ssex").val(ssexv);
-                                        }
-                                    );
+                                        $("thead").after(tbody);
+                                        $("#last_td").append(bt);
+                                        $("#new_q").on('click',
+                                            function() {
+
+                                                var tr = $(this).parent().parent();//获取被点击按钮所在的行
+                                                var td = tr.find("td");//获取当前行的所有列
+                                                $("#myModal").modal('show');//显示模态框
+                                                var snov = td[0].innerHTML;//获取当前列的文本内容
+                                                var snamev = td[1].innerHTML;
+                                                var sagev = td[2].innerHTML;
+                                                var ssexv = td[3].innerHTML;
+
+                                                //将当前行的信息写入模态框中表单对应的地方
+                                                $("#sno").val(snov);
+                                                $("#sname").val(snamev);
+                                                $("#sage").val(sagev);
+                                                $("#ssex").val(ssexv);
+                                            }
+                                        );
+                                    }
+
 
                                 },
                             error:
@@ -216,7 +223,84 @@
                     )
                 }
                 else {//按姓名查找
-                    alert("sname");
+                    $.ajax(
+                        {
+                            url:'getStudentBysname',
+                            data:
+                                {
+                                    sname:$("#query").val()
+                                },
+                            type:'GET',
+                            dataType:"json",
+                            success:
+                                function (json)
+                                {
+                                    if(json.sno == "error")
+                                    {
+                                        alert("该学号不存在,请重新输入");
+                                        $("#query").val(""); //将输入框置为空
+                                    }
+                                    else{
+                                        $("#student_info_tbody").remove(); //将原来信息表清空
+                                        var tbody = document.createElement("tbody");
+                                        tbody.id = "student_info_tbody";
+                                        var tr = tbody.insertRow(0);
+                                        tr.className = "table table-hover"
+
+                                        var td = tr.insertCell(0);
+                                        td.innerHTML = json.sno;
+
+                                        td = tr.insertCell(1);
+                                        td.innerHTML = json.sname;
+
+                                        td = tr.insertCell(2);
+                                        td.innerHTML = json.sage;
+
+                                        td = tr.insertCell(3);
+                                        td.innerHTML = json.ssex;
+
+                                        td = tr.insertCell(4);
+                                        td.id = "last_td";
+
+
+                                        var bt = document.createElement("button");
+                                        bt.innerHTML = "修改";
+                                        bt.className = "btn btn-primary btn-lg";
+                                        bt.type = "button";
+                                        bt.id = "new_q"
+
+
+
+                                        $("thead").after(tbody);
+                                        $("#last_td").append(bt);
+                                        $("#new_q").on('click',
+                                            function() {
+
+                                                var tr = $(this).parent().parent();//获取被点击按钮所在的行
+                                                var td = tr.find("td");//获取当前行的所有列
+                                                $("#myModal").modal('show');//显示模态框
+                                                var snov = td[0].innerHTML;//获取当前列的文本内容
+                                                var snamev = td[1].innerHTML;
+                                                var sagev = td[2].innerHTML;
+                                                var ssexv = td[3].innerHTML;
+
+                                                //将当前行的信息写入模态框中表单对应的地方
+                                                $("#sno").val(snov);
+                                                $("#sname").val(snamev);
+                                                $("#sage").val(sagev);
+                                                $("#ssex").val(ssexv);
+                                            }
+                                        );
+                                    }
+
+
+                                },
+                            error:
+                                function () {
+                                    alert("error");
+                                }
+                        }
+                    )
                 }
 
             });
