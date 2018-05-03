@@ -1,4 +1,4 @@
-# Sims
+                                                                                                                                                                                                                                                                                                                                                                                            # Sims
 Student Information Management System
 0.开发准备
         1.开发环境：Ubuntu 16.04 LTS ; jdk version : "1.8.0_151"
