@@ -36,11 +36,11 @@ public class AddoneController {
         StudentClass cls = classRespository.findDistinctByClassname(student_info.getClassname());
         if (cls == null) // classnmae is not exist
         {
-            return "/error";
+            return "error";
         }
         student.setStudentclass(cls);
 
         studentRepository.save(student);// add new student info to the database
-        return "/ok";// return result webpage
+        return "ok";// return result webpage
     }
 }

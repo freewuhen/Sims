@@ -24,9 +24,9 @@ public class SignupController {
         if (bindingResult.hasErrors())// 如果用户名或者密码不符合规范
         {
             System.out.print("bindingResult.hasErrors()");
-            return "/error";
+            return "error";
         }
         adminRespository.save(admin);
-        return "redirect:/signin";
+        return "redirect:signin";
     }
 }

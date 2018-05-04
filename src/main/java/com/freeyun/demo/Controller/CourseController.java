@@ -24,18 +24,18 @@ public class CourseController {
         if(v.Verification()) {
             List<Course> courses = courseRespository.findAll();
             model.addAttribute("courses",courses);
-            return "/setCourse";
+            return "setCourse";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
     }
     @GetMapping(value = {"/addCourse","/addCourse.html"})
     String addCourse()
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-            return "/addCourse";
+            return "addCourse";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
     }
 
     @PostMapping(value = {"/addCourse","/addCourse.html"})
@@ -44,14 +44,14 @@ public class CourseController {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
             if (courseRespository.findDistinctByCname(course.getCname()) != null) {
-                return "/error";
+                return "error";
             }
 
             courseRespository.save(course);
 
-            return "/ok";
+            return "ok";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
 
     }
 

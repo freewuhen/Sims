@@ -23,9 +23,9 @@ public class ShowallController {
         if(v.Verification()) {
             List<Student> Students = studentRepository.findAll();
             model.addAttribute("students",Students);
-            return  "/showall";
+            return  "showall";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
 
     }
 
@@ -34,7 +34,7 @@ public class ShowallController {
 
         studentRepository.save(student);
 
-        return "/showall";
+        return "showall";
     }
 
 

@@ -23,18 +23,18 @@ public class ClassController {
         if(v.Verification()) {
             List<StudentClass> classes = studentClassRespository.findAll();
             model.addAttribute("classes",classes);
-            return "/setclass";
+            return "setclass";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
     }
     @GetMapping(value = {"/addclass","/addclass.html"})
     String addClass()
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-        return "/addclass";
+        return "addclass";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
     }
 
     @PostMapping(value = {"/addclass","/addclass.html"})
@@ -43,14 +43,14 @@ public class ClassController {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
             if (studentClassRespository.findDistinctByClassname(studentClass.getClassname()) != null) {
-                return "/error";
+                return "error";
             }
 
             studentClassRespository.save(studentClass);
 
-            return "/ok";
+            return "ok";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
 
     }
 

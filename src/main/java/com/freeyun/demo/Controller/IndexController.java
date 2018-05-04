@@ -11,9 +11,9 @@ public class IndexController {
     {
         SignVerification v = new SignVerification();
         if(v.Verification()) {
-            return "/index";
+            return "index";
         }
-        return "redirect:/signin";
+        return "redirect:signin";
     }
 
 

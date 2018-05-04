@@ -8,10 +8,10 @@ public class StartController {
     @GetMapping("/")
     public String hello()
     {
-        return "redirect:/signin";
+        return "redirect:signin";
     }
     @GetMapping("/ok")
     public String ok() {
-        return "/ok";
+        return "ok";
     }
 }

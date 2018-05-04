@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     data-username: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/sampledb?characterEncoding=utf8&useSSL=true
+    url: jdbc:mysql://39.105.78.64:3306/Demo?characterEncoding=utf8&useSSL=true
 
 
     username: root

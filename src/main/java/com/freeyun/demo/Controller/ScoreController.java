@@ -28,11 +28,11 @@ public class ScoreController {
 
     @GetMapping(value = {"/ScoreController","/ScoreController.html"})
     String getScoreContollerPage(){
-        return "/ScoreController";
+        return "ScoreController";
     }
     @GetMapping(value = {"/findScore.html","/findScore"})
     String getFindScorePage(){
-        return "/findScore";
+        return "findScore";
     }
 
     // 查询指定学生所对应的所有课程成绩
@@ -43,7 +43,7 @@ public class ScoreController {
     @PostMapping(value = {"/findStudentScore.html","/findStudentScore"})
     String postFindStudentScore(@RequestParam String sno){
         sid = sno;
-        return "redirect:/findStudentScoreR";
+        return "redirect:findStudentScoreR";
     }
     @GetMapping(value = {"/findStudentScoreR","/findStudentScoreR.html"})
     String getFindStudentScoreResultPage(Model model){
@@ -65,18 +65,18 @@ public class ScoreController {
         }
 
 
-        return "/findStudentScoreR";
+        return "findStudentScoreR";
     }
 
     // 查询指定课程所对应的学生成绩
     @GetMapping(value = {"/findCourseScore.html","/findCourseScore"})
     String getFindCourseScorePage(){
-        return "/findCourseScore";
+        return "findCourseScore";
     }
     @PostMapping(value = {"/findCourseScore.html","/findCourseScore"})
     String postFindCourseScore(@RequestParam String cno){
         cid = cno;
-        return "redirect:/findCourseScoreR";
+        return "redirect:findCourseScoreR";
     }
     @GetMapping(value = {"/findCourseScoreR","/findCourseScoreR.html"})
     String getFindCourseScoreResultPage(Model model){
@@ -99,14 +99,14 @@ public class ScoreController {
         }
 
 
-        return "/findCourseScoreR";
+        return "findCourseScoreR";
     }
 
 
     // 添加成绩
     @GetMapping(value = {"/addScore","/addScore.html"})
     String getAddCoursePage(){
-        return "/addScore";
+        return "addScore";
     }
     @PostMapping(value = {"/addScore","/addScore.html"})
     String postAddCoursePage(Scores scores){
@@ -119,8 +119,8 @@ public class ScoreController {
         }
         catch (NoSuchElementException e)// 捕捉到搜索异常
         {
-            if(student == null){return "/find_error";} //输入的学号不存在
-            if(course == null){return "/error";}//输入的课程号不存在
+            if(student == null){return "find_error";} //输入的学号不存在
+            if(course == null){return "error";}//输入的课程号不存在
         }
 
 
@@ -128,6 +128,6 @@ public class ScoreController {
         scores.setCourse(course);
         scoreRespository.save(scores);
 
-        return "/ok";
+        return "ok";
     }
 }

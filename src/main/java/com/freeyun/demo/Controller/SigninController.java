@@ -22,7 +22,7 @@ public class SigninController {
     @GetMapping(value = {"/signin","/signin.html"})
     String testsign()
     {
-        return "/signin";
+        return "signin";
     }
 
     @PostMapping("/signin")
@@ -36,17 +36,17 @@ public class SigninController {
             if(findadmin.getPassword().equals( admin.getPassword())){//password is right too
                 System.out.print("password is right\n");
                 session.setAttribute("Admin",admin.getUsername());
-                return "redirect:/index";
+                return "redirect:index";
             }
             else{
                 System.out.print("password is error\n");
-                return "redirect:/error";
+                return "redirect:error";
             }
         }
         else{
             logger.info("into the else");
             System.out.print("username is error\n");
-            return "/error";
+            return "error";
         }
 
     }
