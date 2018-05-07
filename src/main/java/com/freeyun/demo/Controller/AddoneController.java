@@ -32,6 +32,8 @@ public class AddoneController {
         student.setSname(student_info.getSname());
         student.setSage(student_info.getSage());
         student.setSsex(student_info.getSsex());
+        student.setTeleno(student_info.getTeleno());
+        student.setAddr(student_info.getAddr());
 
         StudentClass cls = classRespository.findDistinctByClassname(student_info.getClassname());
         if (cls == null) // classnmae is not exist

@@ -3,6 +3,7 @@ package com.freeyun.demo.Domain;
 //import javax.persistence.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 
 @Entity
 public class Student
@@ -11,8 +12,12 @@ public class Student
     private String sname;
     private Integer sage;
     private String ssex;
+    @Column(length = 15) private String teleno;//手机号
+    private String addr;//地址
 
-    @ManyToOne private StudentClass studentclass;
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private StudentClass studentclass;
 
     public Student(){
 
@@ -57,5 +62,21 @@ public class Student
 
     public void setSsex(String ssex) {
         this.ssex = ssex;
+    }
+
+    public String getTeleno() {
+        return teleno;
+    }
+
+    public void setTeleno(String teleno) {
+        this.teleno = teleno;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 }

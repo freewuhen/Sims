@@ -54,22 +54,34 @@
                 <table class="table table-hover"  id = "student_info_table">
                     <thead>
                         <tr class="text-danger">
-                        <th>学号</th>
-                        <th>姓名</th>
-                        <th>年龄</th>
-                        <th>姓名</th>
-                        <th></th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>班级</th>
+                            <th>年龄</th>
+                            <th>性别</th>
+                            <th>电话</th>
+                            <th>家庭住址</th>
+
                         </tr>
                     </thead>
                     <tbody id = "student_info_tbody">
                         <tr th:each="student : ${students}" class="text-danger">
                             <td th:text="${student.sno}"></td>
                             <td th:text="${student.sname}"></td>
+                            <td th:text="${student.studentclass.classname}"></td>
                             <td th:text="${student.sage}"></td>
                             <td th:text="${student.ssex}"></td>
+                            <td th:text="${student.teleno}"></td>
+                            <td th:text="${student.addr}"></td>
+
                             <td>
                                 <button type="button" class="btn btn-primary btn-lg"  >
-                                修改
+                                    修改
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-lg">
+                                    删除
                                 </button>
                             </td>
                         </tr>
@@ -102,11 +114,21 @@
                                             <input type="text" class="form-control" name="sname" id = "sname">
                                         </div>
                                         <div class="form-group">
+                                            <input type="text" class="form-control" name="classname" placeholder="班级" id="stclass">
+                                        </div>
+                                        <div class="form-group">
                                             <input type="text" class="form-control" name="sage" id="sage">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="ssex" id="ssex">
                                         </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="teleno" placeholder="电话" id="teleno">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="addr" placeholder="家庭住址" id="addr">
+                                        </div>
+
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary" id = "post_button">提交</button>
                                         </div>
@@ -129,7 +151,7 @@
                 e.preventDefault();//屏蔽原有功能
                 $.ajax(
                     {
-                        url: 'showall.html',
+                        url: 'updatestudent.html',
                         type: 'POST',
                         data: $('#myForm').serialize(),
                         success: function()
@@ -174,12 +196,21 @@
                                         td.innerHTML = json.sname;
 
                                         td = tr.insertCell(2);
-                                        td.innerHTML = json.sage;
+                                        td.innerHTML = json.studentclass.classname;
 
                                         td = tr.insertCell(3);
-                                        td.innerHTML = json.ssex;
+                                        td.innerHTML = json.sage;
 
                                         td = tr.insertCell(4);
+                                        td.innerHTML = json.ssex;
+
+                                        td = tr.insertCell(5);
+                                        td.innerHTML = json.teleno;
+
+                                        td = tr.insertCell(6);
+                                        td.innerHTML = json.addr;
+
+                                        td = tr.insertCell(7);
                                         td.id = "last_td";
 
 
@@ -313,14 +344,23 @@
                     $("#myModal").modal('show');//显示模态框
                     var snov = td[0].innerHTML;//获取当前列的文本内容
                     var snamev = td[1].innerHTML;
-                    var sagev = td[2].innerHTML;
-                    var ssexv = td[3].innerHTML;
+                    var classv = td[2].innerHTML;
+                    var sagev = td[3].innerHTML;
+                    var ssexv = td[4].innerHTML;
+                    var teleno = td[5].innerHTML;
+                    var addr = td[6].innerHTML;
+
+
 
                     //将当前行的信息写入模态框中表单对应的地方
                     $("#sno").val(snov);
                     $("#sname").val(snamev);
+                    $("#stclass").val(classv);
                     $("#sage").val(sagev);
                     $("#ssex").val(ssexv);
+                    $("#teleno").val(teleno);
+                    $("#addr").val(addr);
+
                 }
             );
         });

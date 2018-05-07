@@ -111,6 +111,10 @@ public class ManageStudentController {//管理学生信息
         student.setSname(student_info.getSname());
         student.setSage(student_info.getSage());
         student.setSsex(student_info.getSsex());
+        student.setAddr(student_info.getAddr());
+        student.setTeleno(student_info.getTeleno());
+
+
         try{
             cls = classRespository.findDistinctByClassname(student_info.getClassname());
         }catch (NoSuchElementException e)// 添加的班级不存在

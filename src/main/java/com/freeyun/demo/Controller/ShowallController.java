@@ -18,7 +18,7 @@ public class ShowallController {
     @Autowired
     private StudentRespository studentRepository;
     @GetMapping(value = {"/showall.html","/showall"})
-    String GetStudentList(Model model){
+    public String GetStudentList(Model model){
         SignVerification v = new SignVerification();
         if(v.Verification()) {
             List<Student> Students = studentRepository.findAll();
@@ -35,6 +35,11 @@ public class ShowallController {
         studentRepository.save(student);
 
         return "showall";
+    }
+
+    @GetMapping("/showInfo")
+    public String showInfo(){
+        return "showInfo";
     }
 
 
