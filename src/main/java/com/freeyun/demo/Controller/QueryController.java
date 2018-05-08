@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @RestController
 public class QueryController {
     @Autowired private StudentRespository studentRespository;
@@ -18,7 +20,7 @@ public class QueryController {
         try{
             student = studentRespository.findById(sno).get();
         }
-        catch (Exception e)
+        catch (NoSuchElementException e)
         {
             student = new Student();
             student.setSno("error");
@@ -31,12 +33,11 @@ public class QueryController {
     @GetMapping("/getStudentBysname")
     Student getQueryPageBysname(@RequestParam String sname)
     {
+
         Student student;
-        try{
-            student = studentRespository.findDistinctBySname(sname);
-        }
-        catch (Exception e)
-        {
+        student = studentRespository.findDistinctBySname(sname);
+        if(student == null){ //自己写的查询方法，查不到时并不会抛异常
+            System.out.print("\n"+"Exception"+"\n");
             student = new Student();
             student.setSno("error");
             return student;// 如果所查学生不存在则返回空值
