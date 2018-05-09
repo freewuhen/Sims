@@ -25,21 +25,22 @@ public class ShowInfoController {
     @Autowired
     private StudentClassRespository classRespository;
     @GetMapping(value = "/getInfo")
-    public List<Student> GetStudentList() {
+    public Object GetStudentList() {
         SignVerification v = new SignVerification();
-        List<Student> students;
-        if(v.Verification()) {
-            students = studentRepository.findAll();
-            return students;
-        }
-        else {
-            students = new ArrayList<>(1);
-            Student student = new Student();
-            student.setSno("sign");
-            students.add(student);
-
-            return students;
-        }
+        List<Student> students = studentRepository.findAll();
+        return  students;
+//        if(v.Verification()) {
+//            students = studentRepository.findAll();
+//            return students;
+//        }
+//        else {
+//            students = new ArrayList<>(1);
+//            Student student = new Student();
+//            student.setSno("sign");
+//            students.add(student);
+//
+//            return students;
+//        }
 
     }
     @PostMapping("/updateInfo")
