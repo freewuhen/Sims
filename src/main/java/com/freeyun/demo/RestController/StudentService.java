@@ -1,13 +1,10 @@
-package com.freeyun.demo.Controller;
+package com.freeyun.demo.RestController;
 
-import com.freeyun.demo.Domain.Course;
 import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Domain.StudentClass;
 import com.freeyun.demo.Domain.Student_info;
-import com.freeyun.demo.Respository.CourseRespository;
 import com.freeyun.demo.Respository.StudentClassRespository;
 import com.freeyun.demo.Respository.StudentRespository;
-import com.freeyun.demo.Verification.SignVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,14 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.NoSuchElementException;
 
-import static org.springframework.data.domain.PageRequest.of;
+
 
 @RestController
-public class ShowInfoController {
+public class StudentService {
     @Autowired
     private StudentRespository studentRepository;
     @Autowired
@@ -33,11 +29,10 @@ public class ShowInfoController {
     @GetMapping(value = "/getInfo")
     public Object GetStudentList(@RequestParam Integer page)
     {
-        Integer size = 10;
+        Integer size = 10;//Page size
+        Sort sort = new Sort(Sort.Direction.ASC,"sno");
 
-
-        Pageable pageable = PageRequest.of(page,size,new Sort(Sort.Direction.ASC,"sno"));
-        SignVerification v = new SignVerification();
+        Pageable pageable = PageRequest.of(page,size,sort);
         Page<Student> students = studentRepository.findAll(pageable);
         return  students;
     }
@@ -69,15 +64,15 @@ public class ShowInfoController {
     public int addInfo(Student_info student_info)
     {
 
-        Boolean student_exit = true;
+        Boolean student_exist = true;
         Student testStudent;
         try{
 
             testStudent = studentRepository.findById(student_info.getSno()).get();
         }catch (NoSuchElementException e){
-            student_exit = false;
+            student_exist = false;
         }
-        if (student_exit)
+        if (student_exist)
         {
             return 3;
         }
@@ -110,5 +105,36 @@ public class ShowInfoController {
         Student student = studentRepository.findById(sno).get();
         studentRepository.delete(student);
         return 1;
+    }
+    @GetMapping("/getStudentBysno")
+    Student getQueryPageBysno(@RequestParam String sno)
+    {
+        Student student;
+        try{
+            student =studentRepository.findById(sno).get();
+        }
+        catch (NoSuchElementException e)
+        {
+            student = new Student();
+            student.setSno("error");
+            return student;// 如果所查学生不存在则返回空值
+        }
+
+
+        return student;
+    }
+    @GetMapping("/getStudentBysname")
+    Student getQueryPageBysname(@RequestParam String sname)
+    {
+
+        Student student;
+        student = studentRepository.findDistinctBySname(sname);
+        if(student == null){ //自己写的查询方法，查不到时并不会抛异常
+            System.out.print("\n"+"Exception"+"\n");
+            student = new Student();
+            student.setSno("error");
+            return student;// 如果所查学生不存在则返回空值
+        }
+        return student;
     }
 }

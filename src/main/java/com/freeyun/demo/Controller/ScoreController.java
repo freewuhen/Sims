@@ -45,28 +45,29 @@ public class ScoreController {
         sid = sno;
         return "redirect:findStudentScoreR";
     }
-    @GetMapping(value = {"/findStudentScoreR","/findStudentScoreR.html"})
-    String getFindStudentScoreResultPage(Model model){
-        try{
-            Student student = studentRespository.findById(sid).get();
-            List<Object[]> scores = scoreRespository.findDistinctBySnoIgnoreCase(sid);
-            List<Score_info> score_infos = new ArrayList<Score_info>();
-            //类型转换 将数据库中查询到的结果（objetc[]类型） 转换为 Score_info 型
-            for(int i = 0;i< scores.size();i++)
-            {
-                score_infos.add(new Score_info((String) scores.get(i)[0],(Integer) scores.get(i)[1]));
-            }
-            model.addAttribute("scores", score_infos);
-            model.addAttribute("sname",student.getSname());
-        }
-        catch (NoSuchElementException e)
-        {
-            return "find_error";
-        }
-
-
-        return "findStudentScoreR";
-    }
+//    @GetMapping(value = {"/findStudentScoreR","/findStudentScoreR.html"})
+//    String getFindStudentScoreResultPage(Model model){
+//        try{
+//            Student student = studentRespository.findById(sid).get();
+//
+//            List<Object[]> scores = scoreRespository.findDistinctBySnoIgnoreCase(sid);
+//            List<Score_info> score_infos = new ArrayList<Score_info>();
+//            //类型转换 将数据库中查询到的结果（objetc[]类型） 转换为 Score_info 型
+//            for(int i = 0;i< scores.size();i++)
+//            {
+//                score_infos.add(new Score_info((String) scores.get(i)[0],(Integer) scores.get(i)[1]));
+//            }
+//            model.addAttribute("scores", score_infos);
+//            model.addAttribute("sname",student.getSname());
+//        }
+//        catch (NoSuchElementException e)
+//        {
+//            return "find_error";
+//        }
+//
+//
+//        return "findStudentScoreR";
+//    }
 
     // 查询指定课程所对应的学生成绩
     @GetMapping(value = {"/findCourseScore.html","/findCourseScore"})
