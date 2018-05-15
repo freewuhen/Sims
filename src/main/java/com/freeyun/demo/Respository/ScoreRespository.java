@@ -15,7 +15,14 @@ public interface ScoreRespository extends JpaRepository<Scores,ScoreMultiKeys> {
    @Query(value = "select course.cname,scores.score from course,scores where course.cno = scores.course_cno and student_sno = ?1",countQuery = "select count(*) FROM scores where student_sno = ?1",nativeQuery = true)
    Page<Object[]> findBySnoIgnoreCase(String student_sno,Pageable pageable);
 
-    @Query("select student.sname,scores.score from Scores scores inner join Student student  on scores.sno = student.sno where scores.cno = ?1")
-    List<Object[]> findDistinctByCnoIgnoreCase(String cno);
+    @Query(value = "select student.sname,scores.score from  scores,student   where scores.student_sno = student.sno and scores.course_cno = ?1",countQuery = "select count(*) FROM scores where course_cno = ?1",nativeQuery = true)
+    Page<Object[]> findByCnoIgnoreCase(String course_cno,Pageable pageable);
+
+
+    void deleteByCnoIgnoreCase(String cno);
+
+    void deleteBySnoIgnoreCase(String sno);
+
+
 
 }

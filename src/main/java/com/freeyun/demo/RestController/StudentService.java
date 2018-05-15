@@ -3,8 +3,11 @@ package com.freeyun.demo.RestController;
 import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Domain.StudentClass;
 import com.freeyun.demo.Domain.Student_info;
+import com.freeyun.demo.Respository.ScoreRespository;
 import com.freeyun.demo.Respository.StudentClassRespository;
 import com.freeyun.demo.Respository.StudentRespository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
 
@@ -26,18 +30,21 @@ public class StudentService {
     private StudentRespository studentRepository;
     @Autowired
     private StudentClassRespository classRespository;
+    @Autowired
+    private ScoreRespository scoreRespository;
+    private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
     @GetMapping(value = "/getInfo")
     public Object GetStudentList(@RequestParam Integer page)
     {
         Integer size = 10;//Page size
-        Sort sort = new Sort(Sort.Direction.ASC,"sno");
+        Sort sort = new Sort(Sort.Direction.ASC,"sno");//asc 顺序
 
         Pageable pageable = PageRequest.of(page,size,sort);
         Page<Student> students = studentRepository.findAll(pageable);
         return  students;
     }
     @PostMapping("/updateInfo")
-    public int updateInfo(Student_info student_info)
+    public int updateStudent(Student_info student_info)
     {
         StudentClass cls = new StudentClass();
         try{
@@ -61,7 +68,7 @@ public class StudentService {
         return 1;
     }
     @PostMapping("/addInfo")
-    public int addInfo(Student_info student_info)
+    public int addStudent(Student_info student_info)
     {
 
         Boolean student_exist = true;
@@ -72,7 +79,7 @@ public class StudentService {
         }catch (NoSuchElementException e){
             student_exist = false;
         }
-        if (student_exist)
+        if (student_exist)//添加的学生已经存在
         {
             return 3;
         }
@@ -100,11 +107,21 @@ public class StudentService {
 
     }
     @PostMapping("/deleInfo")
-    public  int deleInfo(@RequestParam String sno)
+    @Transactional
+    public  int deleStudent(@RequestParam String sno)
     {
-        Student student = studentRepository.findById(sno).get();
-        studentRepository.delete(student);
-        return 1;
+        logger.error("String sno"+sno);
+        try {
+            Student student = studentRepository.findById(sno).get();
+            scoreRespository.deleteBySnoIgnoreCase(sno);
+            studentRepository.delete(student);
+            return 1;
+        }catch (Exception e)
+        {
+            logger.error(e.getLocalizedMessage());
+            return 0;
+        }
+
     }
     @GetMapping("/getStudentBysno")
     Student getQueryPageBysno(@RequestParam String sno)
