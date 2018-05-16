@@ -2,8 +2,10 @@ package com.freeyun.demo.RestController;
 
 import com.freeyun.demo.Aspect.VerificationAspect;
 import com.freeyun.demo.Domain.Course;
+import com.freeyun.demo.Domain.Teacher;
 import com.freeyun.demo.Respository.CourseRespository;
 import com.freeyun.demo.Respository.ScoreRespository;
+import com.freeyun.demo.Respository.TeacherRespository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class CourseService {
     CourseRespository courseRespository;
     @Autowired
     ScoreRespository scoreRespository;
+    @Autowired
+    TeacherRespository teacherRespository;
     private final static Logger logger = LoggerFactory.getLogger(CourseService.class);
 
     @GetMapping(value = "/getCourseInfo")
@@ -39,18 +43,26 @@ public class CourseService {
         return  courses;
     }
     @PostMapping("/addCourseInfo")
-    public int addCourseInfo(Course course)
+    public int addCourseInfo(Course course,@RequestParam String tid)
     {
-        Course course_tset = new Course();
+        Teacher teacher;
+        try {
+            teacher = teacherRespository.findById(tid).get();
+        }catch (Exception e)
+        {
+            return 2; //教师不存在
+        }
+        Course course_tset ;
         try {
             course_tset = courseRespository.findById(course.getCno()).get();
         }
-        catch (NoSuchElementException e)
+        catch (NoSuchElementException e)//该课程还不存在
         {
+            course.setTeacher(teacher);
             courseRespository.save(course);
             return 1;
         }
-        return 0;
+        return 0;//该课程已经存在
 
     }
     @PostMapping("/deleCourseInfo")
@@ -71,18 +83,26 @@ public class CourseService {
         return 1;
     }
     @PostMapping("/updateCourseInfo")
-    public int updateCourseInfo(Course course) {
-        Course course_tset = new Course();
+    public int updateCourseInfo(Course course,@RequestParam String tid) {
+        Teacher teacher;
+        try {
+            teacher = teacherRespository.findById(tid).get();
+        }catch (Exception e)
+        {
+            return 2; //教师不存在
+        }
+        Course course_tset ;
         try {
             course_tset = courseRespository.findById(course.getCno()).get();
+            course.setTeacher(teacher);
+            courseRespository.save(course);
+            return 1;
         }
-        catch (NoSuchElementException e)
+        catch (NoSuchElementException e)//该课程不存在
         {
             return 0;
-        }
 
-        courseRespository.save(course);
-        return 1;
+        }
 
     }
 

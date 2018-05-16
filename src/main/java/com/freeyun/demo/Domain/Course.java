@@ -6,7 +6,9 @@ import javax.persistence.*;
 public class Course {
     @Id @Column(length = 15) protected String cno;
     private String cname;
-    private String teacher;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
     public Course(){
 
     }
@@ -26,11 +28,11 @@ public class Course {
         this.cname = cname;
     }
 
-    public String getTeacher() {
+    public Teacher getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(String teacher) {
+    public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
 }
