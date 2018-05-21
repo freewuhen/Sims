@@ -4,6 +4,7 @@ import com.freeyun.demo.Domain.StudentClass;
 import com.freeyun.demo.Respository.ScoreRespository;
 import com.freeyun.demo.Respository.StudentClassRespository;
 import com.freeyun.demo.Respository.StudentRespository;
+import com.freeyun.demo.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,51 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.transaction.Transactional;
 
 @RestController
-public class ClassService {
+public class ClassRestController {
     @Autowired
-    StudentClassRespository studentClassRespository;
-
-    @Autowired
-    StudentRespository studentRespository;
+    ClassService classService;
     @GetMapping(value = "/getClassInfo")
     public Object GetClassList(@RequestParam Integer page)
     {
-        Integer size = 10;//Page size
-        Sort sort = new Sort(Sort.Direction.ASC,"classno");
-        Pageable pageable = PageRequest.of(page,size,sort);
-        Page<StudentClass> studentClassess = studentClassRespository.findAll(pageable);
-        return  studentClassess;
+        Page<StudentClass> classes = classService.GetClassList(page);
+        return classes;
     }
     @PostMapping("/addClassInfo")
     public int addInfo(StudentClass studentClass)
     {
-        StudentClass cls = new StudentClass();
-        cls = studentClassRespository.findDistinctByClassname(studentClass.getClassname());
-        if(cls == null)//classname existed
-        {
-          studentClassRespository.save(studentClass);
-          return 1;
-        }
-        else{
-            return 0;
-        }
+        int status = classService.addInfo(studentClass);
+        return status;
     }
-
     @PostMapping("/deleClassInfo")
     @Transactional
     public  int deleClassInfo(@RequestParam Integer classno)
     {
-        StudentClass studentClass;
-        try {
-            studentClass = studentClassRespository.findById(classno).get();
-            studentRespository.deleteByStudentclass(studentClass);
-            studentClassRespository.delete(studentClass);
-            return 1;
-        }
-        catch (Exception e)
-        {
-            return 0;
-        }
+        int status = classService.deleClassInfo(classno);
+        return status;
     }
 
 

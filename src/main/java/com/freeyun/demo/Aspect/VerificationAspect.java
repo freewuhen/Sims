@@ -15,7 +15,7 @@ public class VerificationAspect {
     private final static Logger logger = LoggerFactory.getLogger(VerificationAspect.class);
 
     //拦截条件
-    @Pointcut("execution(public * com.freeyun.demo.RestController.StudentService.*(..))")
+    @Pointcut("execution(public * com.freeyun.demo.RestController.StudentRestController.*(..))")
     public void log() {}
     @Around("log()")
     public Object signVerification(ProceedingJoinPoint pjp) throws Throwable{

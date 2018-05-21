@@ -2,6 +2,7 @@ package com.freeyun.demo.Controller;
 
 import com.freeyun.demo.Domain.Admin;
 import com.freeyun.demo.Respository.AdminRespository;
+import com.freeyun.demo.Service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,19 +15,21 @@ import javax.validation.Valid;
 public class SignupController {
     @Autowired
     private AdminRespository adminRespository;
+    @Autowired
+    AdminService adminService;
     @GetMapping("signup.html")
     public String GetSignup()
     {
         return "/signup";
     }
     @PostMapping("signup.html")
-    public String Signup(@Valid Admin admin, BindingResult bindingResult){
-        if (bindingResult.hasErrors())// 如果用户名或者密码不符合规范
+    public String Signup( Admin admin){
+
+        if (adminService.signup(admin) == 1)
         {
-            System.out.print("bindingResult.hasErrors()");
-            return "error";
+            return "redirect:signin";
         }
-        adminRespository.save(admin);
-        return "redirect:signin";
+        return "error";
+
     }
 }

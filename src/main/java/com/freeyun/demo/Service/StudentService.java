@@ -1,4 +1,4 @@
-package com.freeyun.demo.RestController;
+package com.freeyun.demo.Service;
 
 import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Domain.StudentClass;
@@ -13,18 +13,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
-
-
-
-@RestController
+@Service
 public class StudentService {
     @Autowired
     private StudentRespository studentRepository;
@@ -34,7 +30,7 @@ public class StudentService {
     private ScoreRespository scoreRespository;
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
     @GetMapping(value = "/getInfo")
-    public Object GetStudentList(@RequestParam Integer page)
+    public  Page<Student> GetStudentList(@RequestParam Integer page)
     {
         Integer size = 10;//Page size
         Sort sort = new Sort(Sort.Direction.ASC,"sno");//asc 顺序
@@ -124,7 +120,7 @@ public class StudentService {
 
     }
     @GetMapping("/getStudentBysno")
-    Student getQueryPageBysno(@RequestParam String sno)
+    public Student getQueryPageBysno(String sno)
     {
         Student student;
         try{
@@ -141,13 +137,12 @@ public class StudentService {
         return student;
     }
     @GetMapping("/getStudentBysname")
-    Student getQueryPageBysname(@RequestParam String sname)
+    public Student getQueryPageBysname(String sname)
     {
 
         Student student;
         student = studentRepository.findDistinctBySname(sname);
         if(student == null){ //自己写的查询方法，查不到时并不会抛异常
-            System.out.print("\n"+"Exception"+"\n");
             student = new Student();
             student.setSno("error");
             return student;// 如果所查学生不存在则返回空值

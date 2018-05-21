@@ -26,7 +26,6 @@ public class AddoneController {
     }
     @PostMapping ("/addStudent.html")
     public String PostAddStudent(Student_info student_info){
-
         Student student = new Student();
         student.setSno(student_info.getSno());
         student.setSname(student_info.getSname());

@@ -1,6 +1,9 @@
-package com.freeyun.demo.RestController;
+package com.freeyun.demo.Service;
 
-import com.freeyun.demo.Domain.*;
+import com.freeyun.demo.Domain.Course;
+import com.freeyun.demo.Domain.ScoreMultiKeys;
+import com.freeyun.demo.Domain.Scores;
+import com.freeyun.demo.Domain.Student;
 import com.freeyun.demo.Respository.CourseRespository;
 import com.freeyun.demo.Respository.ScoreRespository;
 import com.freeyun.demo.Respository.StudentRespository;
@@ -9,14 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
-@RestController
+@Service
 public class ScoreService {
     @Autowired
     private ScoreRespository scoreRespository;
@@ -40,8 +40,8 @@ public class ScoreService {
             return false;
         }
     }
-    @GetMapping(value = "/getScoreInfoBySno")
-    public Object getScoreInfoBySno(@RequestParam Integer page,@RequestParam String sno)
+ 
+    public Page<Object[]> getScoreInfoBySno(Integer page,String sno)
     {
         Integer size = 10;//Page size
         Sort sort = new Sort(Sort.Direction.ASC,"student_sno");
@@ -50,8 +50,8 @@ public class ScoreService {
         return  score_infos;
     }
 
-    @GetMapping(value = "/getScoreInfoByCno")
-    public Object getScoreInfoByno(@RequestParam Integer page,@RequestParam String cno)
+   
+    public Page<Object[]> getScoreInfoByCno(Integer page,String cno)
     {
         Integer size = 10;//Page size
         Sort sort = new Sort(Sort.Direction.ASC,"course_cno");
@@ -59,7 +59,7 @@ public class ScoreService {
         Page<Object[]> score_infos = scoreRespository.findByCnoIgnoreCase(cno,pageable);
         return  score_infos;
     }
-    @PostMapping("/addScoreInfo")
+   
     public int addScoreInfo(Scores scores)
     {
         Student student ;
@@ -100,8 +100,8 @@ public class ScoreService {
 
     }
 
-    @PostMapping("/deleScoreInfo")
-    public  int deleScoreInfo(@RequestParam String sno,@RequestParam String cno)
+    
+    public  int deleScoreInfo(String sno,String cno)
     {
         if(ScoreExist(sno,cno))
         {
@@ -114,7 +114,7 @@ public class ScoreService {
 
     }
 
-    @PostMapping("/updateScoreInfo")
+    
     public int updateScoreInfo(Scores scores)
     {
         Student student ;
@@ -147,4 +147,3 @@ public class ScoreService {
 
     }
 }
-
